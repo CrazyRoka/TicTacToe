@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         but.setEnabled(true);
         but.setTextColor(Color.BLACK);
     }
-    public void CLEAR(View view){
+    public void Clear(View view){
         counter = 1;
         for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++){Reset(butMatrix[i][j]);matrix[i][j]=' ';}
         textView.setText("Хід гравця номер 1");
