@@ -53,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public void drawButtons(Button first, Button second, Button third, int color){
+        first.setTextColor(color==1?Color.RED : Color.BLUE);
+        second.setTextColor(color==1?Color.RED : Color.BLUE);
+        third.setTextColor(color==1?Color.RED : Color.BLUE);
+    }
     public boolean isLine(char first, char second, char third){
         return first == second && first == third && (first == 'X' || first == 'O');
     }
@@ -60,23 +65,23 @@ public class MainActivity extends AppCompatActivity {
         int winner = 0;
         for(int i = 0 ; i < 3; i++){
             if(isLine(matrix[i][0],matrix[i][1],matrix[i][2])){
-                for(int j = 0 ; j < 3; j++)butMatrix[i][j].setTextColor(matrix[i][0]=='X'? Color.RED : Color.BLUE);
                 winner = matrix[i][0]=='X'? 1 : 2;
+                drawButtons(butMatrix[i][0],butMatrix[i][1],butMatrix[i][2],winner);
                 break;
             }
             if(isLine(matrix[0][i],matrix[1][i],matrix[2][i])){
-                for(int j = 0 ; j < 3; j++)butMatrix[j][i].setTextColor(matrix[0][i]=='X'? Color.RED : Color.BLUE);
                 winner = matrix[0][i]=='X'? 1 : 2;
+                drawButtons(butMatrix[0][i],butMatrix[1][i],butMatrix[2][i],winner);
                 break;
             }
         }
         if(winner == 0 && isLine(matrix[0][0],matrix[1][1],matrix[2][2])){
-            for(int i = 0; i < 3; i++)butMatrix[i][i].setTextColor(matrix[0][0]=='X'? Color.RED : Color.BLUE);
             winner = matrix[0][0]=='X'? 1 : 2;
+            drawButtons(butMatrix[0][0],butMatrix[1][1],butMatrix[2][2],winner);
         }
         if(winner == 0 && isLine(matrix[2][0],matrix[1][1],matrix[0][2])){
-            for(int i = 2, j = 0; j < 3; i--, j++)butMatrix[i][j].setTextColor(matrix[2][0]=='X'? Color.RED : Color.BLUE);
             winner = matrix[2][0]=='X'? 1 : 2;
+            drawButtons(butMatrix[2][0],butMatrix[1][1],butMatrix[0][2],winner);
         }
         if(winner>0){
             textView.setText("Переміг гравець номер " + Integer.toString(winner) + "!");
