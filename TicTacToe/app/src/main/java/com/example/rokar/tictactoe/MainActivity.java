@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean isLine(char first, char second, char third){
         return first == second && first == third && (first == 'X' || first == 'O');
     }
+    public void disableAllButtons(){
+        for(int i = 0 ; i < 3; i++)for(int j = 0; j < 3; j++)butMatrix[i][j].setEnabled(false);
+    }
     public void checkIfWin(){
         int winner = 0;
         for(int i = 0 ; i < 3; i++){
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if(winner>0){
             textView.setText("Переміг гравець номер " + Integer.toString(winner) + "!");
-            for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++)butMatrix[i][j].setEnabled(false);
+            disableAllButtons();
         }else{
             checkIfTie();
         }
@@ -107,14 +110,20 @@ public class MainActivity extends AppCompatActivity {
             textView.setText("НІчия! Перемогла дружба!");
         }
     }
+    public void fillMatrix(Button but){
+        for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++)if(butMatrix[i][j]==but)matrix[i][j]=counter%2==0?'X':'O';
+    }
     public void onClick(View view){
         changeButton((Button)view);
-        for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++)if(butMatrix[i][j]==(Button)view)matrix[i][j]=counter%2==0?'X':'O';
+        fillMatrix((Button)view);
         checkIfWin();
     }
     public void Exit(View view){
         finish();
         System.exit(0);
+    }
+    public void resetAllButtons(){
+        for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++){Reset(butMatrix[i][j]);matrix[i][j]=' ';}
     }
     public void Reset(Button but){
         but.setText("");
@@ -123,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void Clear(View view){
         counter = 1;
-        for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++){Reset(butMatrix[i][j]);matrix[i][j]=' ';}
+        resetAllButtons();
         textView.setText("Хід гравця номер 1");
     }
 }
