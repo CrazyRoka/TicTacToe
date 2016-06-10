@@ -53,53 +53,30 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public boolean isLine(char first, char second, char third){
+        return first == second && first == third && (first == 'X' || first == 'O');
+    }
     public void checkIfWin(){
         int winner = 0;
         for(int i = 0 ; i < 3; i++){
-            int[] q = new int[2];
-            for(int j = 0 ; j < 3; j++)if(matrix[i][j]=='X')q[0]++; else if(matrix[i][j]=='O')q[1]++;
-            if(q[0]==3){
-                for(int j = 0 ; j < 3; j++)butMatrix[i][j].setTextColor(Color.RED);
-                winner = 1;
+            if(isLine(matrix[i][0],matrix[i][1],matrix[i][2])){
+                for(int j = 0 ; j < 3; j++)butMatrix[i][j].setTextColor(matrix[i][0]=='X'? Color.RED : Color.BLUE);
+                winner = matrix[i][0]=='X'? 1 : 2;
                 break;
             }
-            if(q[1]==3){
-                for(int j = 0 ; j < 3; j++)butMatrix[i][j].setTextColor(Color.BLUE);
-                winner = 2;
-                break;
-            }
-            q = new int[2];
-            for(int j = 0 ; j < 3; j++)if(matrix[j][i]=='X')q[0]++; else if(matrix[j][i]=='O')q[1]++;
-            if(q[0]==3){
-                for(int j = 0 ; j < 3; j++)butMatrix[j][i].setTextColor(Color.RED);
-                winner = 1;
-                break;
-            }
-            if(q[1]==3){
-                for(int j = 0 ; j < 3; j++)butMatrix[j][i].setTextColor(Color.BLUE);
-                winner = 2;
+            if(isLine(matrix[0][i],matrix[1][i],matrix[2][i])){
+                for(int j = 0 ; j < 3; j++)butMatrix[j][i].setTextColor(matrix[0][i]=='X'? Color.RED : Color.BLUE);
+                winner = matrix[0][i]=='X'? 1 : 2;
                 break;
             }
         }
-        if(winner == 0 && matrix[0][0]==matrix[1][1] && matrix[0][0]==matrix[2][2]){
-            if(matrix[0][0]=='X'){
-                for(int i = 0; i < 3; i++)butMatrix[i][i].setTextColor(Color.RED);
-                winner = 1;
-            }
-            if(matrix[0][0]=='O'){
-                for(int i = 0; i < 3; i++)butMatrix[i][i].setTextColor(Color.BLUE);
-                winner = 2;
-            }
+        if(winner == 0 && isLine(matrix[0][0],matrix[1][1],matrix[2][2])){
+            for(int i = 0; i < 3; i++)butMatrix[i][i].setTextColor(matrix[0][0]=='X'? Color.RED : Color.BLUE);
+            winner = matrix[0][0]=='X'? 1 : 2;
         }
-        if(winner == 0 && matrix[1][1]==matrix[0][2] && matrix[1][1] == matrix[2][0]){
-            if(matrix[0][2]=='X'){
-                for(int i = 2, j = 0; j < 3; i--, j++)butMatrix[i][j].setTextColor(Color.RED);
-                winner = 1;
-            }
-            if(matrix[0][2]=='O'){
-                for(int i = 2, j = 0; j < 3; i--, j++)butMatrix[i][j].setTextColor(Color.BLUE);
-                winner = 1;
-            }
+        if(winner == 0 && isLine(matrix[2][0],matrix[1][1],matrix[0][2])){
+            for(int i = 2, j = 0; j < 3; i--, j++)butMatrix[i][j].setTextColor(matrix[2][0]=='X'? Color.RED : Color.BLUE);
+            winner = matrix[2][0]=='X'? 1 : 2;
         }
         if(winner>0){
             textView.setText("Переміг гравець номер " + Integer.toString(winner) + "!");
