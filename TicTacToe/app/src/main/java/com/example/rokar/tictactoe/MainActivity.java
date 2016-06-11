@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             drawButtons(butMatrix[2][0],butMatrix[1][1],butMatrix[0][2],winner);
         }
         if(winner>0){
-            textView.setText("Переміг " + (winner==1?Name1 : Name2));
+            textView.setText("Переміг " + currentPlayerName(winner));
             disableAllButtons();
         }else{
             checkIfTie();
@@ -136,8 +136,11 @@ public class MainActivity extends AppCompatActivity {
         but.setEnabled(true);
         but.setTextColor(Color.BLACK);
     }
+    public String currentPlayerName(int choice){
+        return (choice%2==1?Name1:Name2);
+    }
     public void setTextView(){
-        textView.setText("Хід " + (counter%2==1?Name1:Name2));
+        textView.setText("Хід " + currentPlayerName(counter));
     }
     public void Clear(View view){
         counter = 1;
