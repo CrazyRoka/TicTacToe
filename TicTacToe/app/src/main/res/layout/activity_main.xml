@@ -114,8 +114,8 @@
         android:text="Повернутись у меню"
         android:id="@+id/button11"
         android:layout_alignTop="@+id/button10"
-        android:layout_toRightOf="@+id/button8"
-        android:layout_toEndOf="@+id/button8"
+        android:layout_toEndOf="@+id/button10"
         android:onClick="Exit"
-        android:nestedScrollingEnabled="false" />
+        android:nestedScrollingEnabled="false"
+        android:layout_toRightOf="@+id/button10" />
 </RelativeLayout>

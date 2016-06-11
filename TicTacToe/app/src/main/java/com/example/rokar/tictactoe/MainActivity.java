@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         butMatrix[2][2] = (Button) findViewById(R.id.button9);
         for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++)butMatrix[i][j].setTextColor(Color.BLACK);
         textView = (TextView) findViewById(R.id.textView);
+        setTextView();
     }
 
     @Override

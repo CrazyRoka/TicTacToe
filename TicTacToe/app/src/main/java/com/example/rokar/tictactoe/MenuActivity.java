@@ -28,23 +28,29 @@ public class MenuActivity extends Activity {
         for(int i = 0; i < a.length(); i++)if(a.charAt(i)!=' ')ans=true;
         return ans;
     }
-        public void Start(View view){
+    public void newActivity(){
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("Name1",editText1.getText().toString());
+        intent.putExtra("Name2",editText2.getText().toString());
+        startActivity(intent);
+    }
+    public void showDialog(){
+        new AlertDialog.Builder(this)
+                .setTitle("Помилка")
+                .setMessage("Введіть назви гравців корректно!")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+    public void Start(View view){
         if(isName(editText1.getText().toString()) && isName(editText2.getText().toString())) {
-            Intent intent = new Intent(this,MainActivity.class);
-            intent.putExtra("Name1",editText1.getText().toString());
-            intent.putExtra("Name2",editText2.getText().toString());
-            startActivity(intent);
+            newActivity();
         }else{
-            new AlertDialog.Builder(this)
-                    .setTitle("Помилка")
-                    .setMessage("Введіть назви гравців корректно!")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
+            showDialog();
         }
     }
     public void ExitApp(View view){
