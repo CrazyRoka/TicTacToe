@@ -14,11 +14,14 @@ public class MainActivity extends AppCompatActivity {
     public char[][] matrix = new char[3][3];
     public TextView textView;
     public Button[][] butMatrix = new Button[3][3];
+    public String Name1, Name2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Name1 = (String)getIntent().getSerializableExtra("Name1");
+        Name2 = (String)getIntent().getSerializableExtra("Name2");
         butMatrix[0][0] = (Button) findViewById(R.id.button);
         butMatrix[0][1] = (Button) findViewById(R.id.button2);
         butMatrix[0][2]= (Button) findViewById(R.id.button3);
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             drawButtons(butMatrix[2][0],butMatrix[1][1],butMatrix[0][2],winner);
         }
         if(winner>0){
-            textView.setText("Переміг гравець номер " + Integer.toString(winner) + "!");
+            textView.setText("Переміг " + (winner==1?Name1 : Name2));
             disableAllButtons();
         }else{
             checkIfTie();
@@ -99,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
         }else{
             but.setText("O");
         }
-        textView.setText("Хід гравця номер "+(counter++%2+1));
+        counter++;
+        setTextView();
         but.setTextSize(20);
         but.setEnabled(false);
     }
@@ -120,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public void Exit(View view){
         finish();
-        System.exit(0);
+        resetAllButtons();
+        counter=1;
     }
     public void resetAllButtons(){
         for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++){Reset(butMatrix[i][j]);matrix[i][j]=' ';}
@@ -130,9 +135,12 @@ public class MainActivity extends AppCompatActivity {
         but.setEnabled(true);
         but.setTextColor(Color.BLACK);
     }
+    public void setTextView(){
+        textView.setText("Хід " + (counter%2==1?Name1:Name2));
+    }
     public void Clear(View view){
         counter = 1;
         resetAllButtons();
-        textView.setText("Хід гравця номер 1");
+        setTextView();
     }
 }
