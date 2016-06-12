@@ -15,24 +15,15 @@ public class MainActivity extends AppCompatActivity {
     public TextView textView;
     public Button[][] butMatrix = new Button[3][3];
     public String Name1, Name2;
+    public String stringColor1, stringColor2;
+    public int color1, color2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Name1 = (String)getIntent().getSerializableExtra("Name1");
-        Name2 = (String)getIntent().getSerializableExtra("Name2");
-        butMatrix[0][0] = (Button) findViewById(R.id.button);
-        butMatrix[0][1] = (Button) findViewById(R.id.button2);
-        butMatrix[0][2]= (Button) findViewById(R.id.button3);
-        butMatrix[1][0] = (Button) findViewById(R.id.button4);
-        butMatrix[1][1] = (Button) findViewById(R.id.button5);
-        butMatrix[1][2] = (Button) findViewById(R.id.button6);
-        butMatrix[2][0] = (Button) findViewById(R.id.button7);
-        butMatrix[2][1] = (Button) findViewById(R.id.button8);
-        butMatrix[2][2] = (Button) findViewById(R.id.button9);
-        for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++)butMatrix[i][j].setTextColor(Color.BLACK);
-        textView = (TextView) findViewById(R.id.textView);
+        defineAllViews();
+        setAllColors();
         setTextView();
     }
 
@@ -57,10 +48,57 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public void defineAllViews(){
+        stringColor1 = (String)getIntent().getSerializableExtra("Color1");
+        stringColor2 = (String)getIntent().getSerializableExtra("Color2");
+        Name1 = (String)getIntent().getSerializableExtra("Name1");
+        Name2 = (String)getIntent().getSerializableExtra("Name2");
+        butMatrix[0][0] = (Button) findViewById(R.id.button);
+        butMatrix[0][1] = (Button) findViewById(R.id.button2);
+        butMatrix[0][2]= (Button) findViewById(R.id.button3);
+        butMatrix[1][0] = (Button) findViewById(R.id.button4);
+        butMatrix[1][1] = (Button) findViewById(R.id.button5);
+        butMatrix[1][2] = (Button) findViewById(R.id.button6);
+        butMatrix[2][0] = (Button) findViewById(R.id.button7);
+        butMatrix[2][1] = (Button) findViewById(R.id.button8);
+        butMatrix[2][2] = (Button) findViewById(R.id.button9);
+        for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++)butMatrix[i][j].setTextColor(Color.BLACK);
+        textView = (TextView) findViewById(R.id.textView);
+    }
+    public void setAllColors(){
+        setColor(stringColor1,1);
+        setColor(stringColor2,2);
+    }
+    public void setColor(String color, int number){
+        int createColor = Color.BLACK;
+        switch (color){
+            case "Червоний":
+                createColor = Color.RED;
+                break;
+            case "Синій":
+                createColor = Color.BLUE;
+                break;
+            case "Жовтий":
+                createColor = Color.YELLOW;
+                break;
+            case "Зелений":
+                createColor = Color.GREEN;
+                break;
+            case "Розовий":
+                createColor = Color.parseColor("#FF69B4");
+                break;
+            default:
+                break;
+        }
+        if(number==1)color1 = createColor;else color2 = createColor;
+    }
+    public int chooseColor(int color){
+        return color==1? color1 : color2;
+    }
     public void drawButtons(Button first, Button second, Button third, int color){
-        first.setTextColor(color==1?Color.RED : Color.BLUE);
-        second.setTextColor(color==1?Color.RED : Color.BLUE);
-        third.setTextColor(color==1?Color.RED : Color.BLUE);
+        first.setTextColor(chooseColor(color));
+        second.setTextColor(chooseColor(color));
+        third.setTextColor(chooseColor(color));
     }
     public boolean isLine(char first, char second, char third){
         return first == second && first == third && (first == 'X' || first == 'O');
@@ -92,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if(winner>0){
             textView.setText("Переміг " + currentPlayerName(winner));
+            textView.setTextColor(winner==1? color1: color2);
             disableAllButtons();
         }else{
             checkIfTie();
@@ -113,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0 ; i < 3; i++)for(int j = 0; j < 3; j++)if(matrix[i][j]!='X' && matrix[i][j]!='O')ans=true;
         if(ans==false){
             textView.setText("НІчия! Перемогла дружба!");
+            textView.setTextColor(Color.BLACK);
         }
     }
     public void fillMatrix(Button but){
@@ -141,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void setTextView(){
         textView.setText("Хід " + currentPlayerName(counter));
+        textView.setTextColor(chooseColor(counter%2));
     }
     public void Clear(View view){
         counter = 1;
