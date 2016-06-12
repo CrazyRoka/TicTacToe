@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
     public int counter = 1;
     public char[][] matrix = new char[3][3];
     public TextView textView;
@@ -48,11 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void defineAllViews(){
-        stringColor1 = (String)getIntent().getSerializableExtra("Color1");
-        stringColor2 = (String)getIntent().getSerializableExtra("Color2");
-        Name1 = (String)getIntent().getSerializableExtra("Name1");
-        Name2 = (String)getIntent().getSerializableExtra("Name2");
+    public void initButtonMatrix(){
         butMatrix[0][0] = (Button) findViewById(R.id.button);
         butMatrix[0][1] = (Button) findViewById(R.id.button2);
         butMatrix[0][2]= (Button) findViewById(R.id.button3);
@@ -63,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
         butMatrix[2][1] = (Button) findViewById(R.id.button8);
         butMatrix[2][2] = (Button) findViewById(R.id.button9);
         for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++)butMatrix[i][j].setTextColor(Color.BLACK);
+    }
+    public void defineAllViews(){
+        stringColor1 = (String)getIntent().getSerializableExtra("Color1");
+        stringColor2 = (String)getIntent().getSerializableExtra("Color2");
+        Name1 = (String)getIntent().getSerializableExtra("Name1");
+        Name2 = (String)getIntent().getSerializableExtra("Name2");
+        initButtonMatrix();
         textView = (TextView) findViewById(R.id.textView);
     }
     public void setAllColors(){

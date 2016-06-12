@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.rokar.tictactoe.MainActivity"
+            android:name="com.example.rokar.tictactoe.GameActivity"
             android:label="Game"
             android:parentActivityName="com.example.rokar.tictactoe.MenuActivity" >
             <meta-data

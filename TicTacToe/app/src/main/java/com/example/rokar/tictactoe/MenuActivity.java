@@ -35,8 +35,8 @@ public class MenuActivity extends Activity {
     public String getColor(Spinner spinner){
         return String.valueOf(spinner.getSelectedItem());
     }
-    public void newActivity(){
-        Intent intent = new Intent(this,MainActivity.class);
+    public void startGame(){
+        Intent intent = new Intent(this,GameActivity.class);
         intent.putExtra("Name1",editText1.getText().toString());
         intent.putExtra("Name2",editText2.getText().toString());
         intent.putExtra("Color1",getColor(spinner1));
@@ -60,7 +60,7 @@ public class MenuActivity extends Activity {
             if(spinner1.getSelectedItem().toString()==spinner2.getSelectedItem().toString()){
                 showDialog("Введіть різні кольори гравцям!");
             }else {
-                newActivity();
+                startGame();
             }
         }else{
             showDialog("Введіть імена гравцям корректно!");
