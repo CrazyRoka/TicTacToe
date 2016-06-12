@@ -102,22 +102,20 @@
         android:layout_height="wrap_content"
         android:text="Розпочати нову гру"
         android:id="@+id/button10"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="30dp"
+        android:onClick="Clear"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp"
-        android:onClick="Clear" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Вийти"
+        android:text="Повернутись у меню"
         android:id="@+id/button11"
         android:layout_alignTop="@+id/button10"
-        android:layout_toRightOf="@+id/button8"
-        android:layout_toEndOf="@+id/button8"
+        android:layout_toEndOf="@+id/button10"
         android:onClick="Exit"
-        android:nestedScrollingEnabled="false" />
+        android:nestedScrollingEnabled="false"
+        android:layout_toRightOf="@+id/button10" />
 </RelativeLayout>

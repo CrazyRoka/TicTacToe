@@ -3,4 +3,11 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string-array name="combobox">
+        <item>Червоний</item>
+        <item>Синій</item>
+        <item>Жовтий</item>
+        <item>Зелений</item>
+        <item>Розовий</item>
+    </string-array>
 </resources>
