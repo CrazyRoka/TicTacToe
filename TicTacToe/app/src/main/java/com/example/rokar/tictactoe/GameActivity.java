@@ -1,5 +1,6 @@
 package com.example.rokar.tictactoe;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,26 @@ public class GameActivity extends AppCompatActivity {
         defineAllViews();
         setAllColors();
         setTextView();
+        SharedPreferences sharedPref =  getSharedPreferences("NAMES", MODE_PRIVATE);
+        try{
+            int count = 1;
+            for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++){
+                matrix[i][j] = sharedPref.getString(String.valueOf(i*3 + j),"").charAt(0);
+                if(matrix[i][j]=='X')butMatrix[i][j].setText("X");
+                if(matrix[i][j]=='O')butMatrix[i][j].setText("O");
+                if(matrix[i][j]=='X' || matrix[i][j]=='O'){
+                    butMatrix[i][j].setEnabled(false);
+                    count++;
+                }
+                butMatrix[i][j].setTextSize(20);
+            }
+            counter = count;
+            setTextView();
+            checkIfWin();
+            checkIfTie();
+        }catch (Exception e){
+
+        }
     }
 
     @Override
@@ -69,7 +90,7 @@ public class GameActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.textView);
     }
     public void setAllColors(){
-        setColor(stringColor1,1);
+        setColor(stringColor1, 1);
         setColor(stringColor2,2);
     }
     public void setColor(String color, int number){
@@ -161,14 +182,19 @@ public class GameActivity extends AppCompatActivity {
     public void fillMatrix(Button but){
         for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++)if(butMatrix[i][j]==but)matrix[i][j]=counter%2==0?'X':'O';
     }
+    public void saveData(){
+        SharedPreferences.Editor editor = getSharedPreferences("NAMES", MODE_PRIVATE).edit();
+        for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++)editor.putString(String.valueOf(i*3 + j),matrix[i][j]+"ABCD");
+        editor.commit();
+    }
     public void onClick(View view){
         changeButton((Button)view);
-        fillMatrix((Button)view);
+        fillMatrix((Button) view);
         checkIfWin();
+        saveData();
     }
     public void Exit(View view){
         finish();
-        resetAllButtons();
         counter=1;
     }
     public void resetAllButtons(){
