@@ -44,11 +44,14 @@ public class MenuActivity extends Activity {
         }
     }
     private boolean isName(String a){
-        boolean ans = false;
-        for(int i = 0; i < a.length(); i++)if(a.charAt(i)!=' ')ans=true;
-        return ans;
+        try {
+            boolean ans = false;
+            for (int i = 0; i < a.length(); i++) if (a.charAt(i) != ' ') ans = true;
+            return ans;
+        }catch (Exception e){
+            return false;
+        }
     }
-    public String getColor(Spinner spinner){return String.valueOf(spinner.getSelectedItem());}
     private String decodeColor(long value){return value==0? "Червоний" : value == 1? "Синій" : value == 2? "Жовтий" : value == 3? "Зелений" : "Розовий";}
     public void startGame(){
         Intent intent = new Intent(this,GameActivity.class);
@@ -58,7 +61,7 @@ public class MenuActivity extends Activity {
         intent.putExtra("Color2", decodeColor(Color2));
         startActivity(intent);
     }
-    public void openOptions(){
+    public void openOptions(View view){
         Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
     }
