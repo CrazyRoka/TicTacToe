@@ -2,8 +2,10 @@ package com.example.rokar.tictactoe;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,33 +16,38 @@ import android.widget.Spinner;
  * Created by rokar on 11.06.2016.
  */
 public class MenuActivity extends Activity {
-    EditText editText1;
-    EditText editText2;
-    Spinner spinner1, spinner2;
+    String Name1,Name2;
+    long Color1, Color2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.menu_activity);
-        editText1 = (EditText) findViewById(R.id.editText);
-        editText2 = (EditText) findViewById(R.id.editText2);
-        spinner1 = (Spinner) findViewById(R.id.spinner);
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        loadData();
+    }
+    void loadData(){
+        SharedPreferences sharedPref =  getSharedPreferences("NAMES", MODE_PRIVATE);
+        if(sharedPref.contains("name1"))Name1 = sharedPref.getString("name1", ""); else Name1 = "";
+        if(sharedPref.contains("name2"))Name2 = sharedPref.getString("name2", ""); else Name2 = "";
+        if(sharedPref.contains("color1"))Color1 = sharedPref.getLong("color1", 0); else Color1 = -1;
+        if(sharedPref.contains("color2"))Color2 = sharedPref.getLong("color2", 0); else Color2 = -1;
     }
     private boolean isName(String a){
         boolean ans = false;
-        for(int i = 0; i < a.length(); i++)if(a.charAt(i)!=' ')ans=true;
+        for (int i = 0; i < a.length(); i++) if (a.charAt(i) != ' ') ans = true;
         return ans;
     }
-    public String getColor(Spinner spinner){
-        return String.valueOf(spinner.getSelectedItem());
-    }
+    private String decodeColor(long value){return value==0? "Червоний" : value == 1? "Синій" : value == 2? "Жовтий" : value == 3? "Зелений" : "Розовий";}
     public void startGame(){
         Intent intent = new Intent(this,GameActivity.class);
-        intent.putExtra("Name1",editText1.getText().toString());
-        intent.putExtra("Name2",editText2.getText().toString());
-        intent.putExtra("Color1",getColor(spinner1));
-        intent.putExtra("Color2",getColor(spinner2));
+        intent.putExtra("Name1", Name1);
+        intent.putExtra("Name2", Name2);
+        intent.putExtra("Color1", decodeColor(Color1));
+        intent.putExtra("Color2", decodeColor(Color2));
+        startActivity(intent);
+    }
+    public void openOptions(View view){
+        Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
     }
     public void showDialog(String message){
@@ -55,15 +62,17 @@ public class MenuActivity extends Activity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+    public boolean validateColors(){return Color1==Color2;}
+    public boolean validateNames(){return isName(Name1) && isName(Name2);}
     public void Start(View view){
-        if(isName(editText1.getText().toString()) && isName(editText2.getText().toString())) {
-            if(spinner1.getSelectedItem().toString()==spinner2.getSelectedItem().toString()){
-                showDialog("Введіть різні кольори гравцям!");
+        if(validateNames()) {
+            if(validateColors()){
+                showDialog("Введіть різні кольори гравцям у налаштуваннях!");
             }else {
                 startGame();
             }
         }else{
-            showDialog("Введіть імена гравцям корректно!");
+            showDialog("Введіть імена гравцям у налаштуваннях!");
         }
     }
     public void ExitApp(View view){

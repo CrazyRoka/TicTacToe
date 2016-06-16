@@ -17,9 +17,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.rokar.tictactoe.GameActivity"
+            android:name=".GameActivity"
             android:label="Game"
-            android:parentActivityName="com.example.rokar.tictactoe.MenuActivity" >
+            android:parentActivityName=".MenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rokar.tictactoe.MenuActivity" />
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
+            android:parentActivityName=".MenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rokar.tictactoe.MenuActivity" />
