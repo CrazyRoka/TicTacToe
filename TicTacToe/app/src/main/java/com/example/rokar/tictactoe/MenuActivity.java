@@ -23,34 +23,19 @@ public class MenuActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.menu_activity);
+        loadData();
+    }
+    void loadData(){
         SharedPreferences sharedPref =  getSharedPreferences("NAMES", MODE_PRIVATE);
-        String text = sharedPref.getString("name1",null);
-        if(text!=null){
-            String name1, name2;
-            long color1,color2;
-            try {
-                name1 = sharedPref.getString("name1", "");
-                name2 = sharedPref.getString("name2", "");
-                color1 = sharedPref.getLong("color1", 0);
-                color2 = sharedPref.getLong("color2", 0);
-            }catch (Exception e){
-                color1 = color2 = -1;
-                name1 = name2 = "";
-            }
-            Name1 = name1;
-            Name2 = name2;
-            Color1 = color1;
-            Color2 = color2;
-        }
+        if(sharedPref.contains("name1"))Name1 = sharedPref.getString("name1", ""); else Name1 = "";
+        if(sharedPref.contains("name2"))Name2 = sharedPref.getString("name2", ""); else Name2 = "";
+        if(sharedPref.contains("color1"))Color1 = sharedPref.getLong("color1", 0); else Color1 = -1;
+        if(sharedPref.contains("color2"))Color2 = sharedPref.getLong("color2", 0); else Color2 = -1;
     }
     private boolean isName(String a){
-        try {
-            boolean ans = false;
-            for (int i = 0; i < a.length(); i++) if (a.charAt(i) != ' ') ans = true;
-            return ans;
-        }catch (Exception e){
-            return false;
-        }
+        boolean ans = false;
+        for (int i = 0; i < a.length(); i++) if (a.charAt(i) != ' ') ans = true;
+        return ans;
     }
     private String decodeColor(long value){return value==0? "Червоний" : value == 1? "Синій" : value == 2? "Жовтий" : value == 3? "Зелений" : "Розовий";}
     public void startGame(){
@@ -77,9 +62,11 @@ public class MenuActivity extends Activity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+    public boolean validateColors(){return Color1==Color2;}
+    public boolean validateNames(){return isName(Name1) && isName(Name2);}
     public void Start(View view){
-        if(isName(Name1) && isName(Name2)) {
-            if(Color1 == Color2){
+        if(validateNames()) {
+            if(validateColors()){
                 showDialog("Введіть різні кольори гравцям у налаштуваннях!");
             }else {
                 startGame();

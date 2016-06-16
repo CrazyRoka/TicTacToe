@@ -26,26 +26,7 @@ public class GameActivity extends AppCompatActivity {
         defineAllViews();
         setAllColors();
         setTextView();
-        SharedPreferences sharedPref =  getSharedPreferences("NAMES", MODE_PRIVATE);
-        try{
-            int count = 1;
-            for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++){
-                matrix[i][j] = sharedPref.getString(String.valueOf(i*3 + j),"").charAt(0);
-                if(matrix[i][j]=='X')butMatrix[i][j].setText("X");
-                if(matrix[i][j]=='O')butMatrix[i][j].setText("O");
-                if(matrix[i][j]=='X' || matrix[i][j]=='O'){
-                    butMatrix[i][j].setEnabled(false);
-                    count++;
-                }
-                butMatrix[i][j].setTextSize(20);
-            }
-            counter = count;
-            setTextView();
-            checkIfWin();
-            checkIfTie();
-        }catch (Exception e){
-
-        }
+        initButtons();
     }
 
     @Override
@@ -68,6 +49,23 @@ public class GameActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void initButtons(){
+        SharedPreferences sharedPref =  getSharedPreferences("NAMES", MODE_PRIVATE);
+        int count = 1;
+        for(int i = 0; i < 3; i++)for(int j = 0; j < 3; j++){
+            if(sharedPref.contains(String.valueOf(i*3 + j)))matrix[i][j] = sharedPref.getString(String.valueOf(i*3 + j),"").charAt(0);
+            butMatrix[i][j].setText(matrix[i][j]=='X'? "X" : matrix[i][j]=='O'? "O" : "");
+            if(matrix[i][j]=='X' || matrix[i][j]=='O'){
+                butMatrix[i][j].setEnabled(false);
+                count++;
+            }
+            butMatrix[i][j].setTextSize(20);
+        }
+        counter = count;
+        setTextView();
+        checkIfWin();
+        checkIfTie();
     }
     public void initButtonMatrix(){
         butMatrix[0][0] = (Button) findViewById(R.id.button);
